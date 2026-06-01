@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10K Race Program — June 21</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#100f0c;
+    --bg-2:#16150f;
+    --card:#1b1a12;
+    --line:#2c2a1e;
+    --ink:#f3efe3;
+    --muted:#9c9883;
+    --dim:#6f6c5c;
+    --lime:#cdf24a;
+    --lime-dim:#9fb83a;
+    --ember:#ff6a3d;
+    --ember-soft:#3a2014;
+    --cool:#7fd6ff;
+    --r:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(1200px 500px at 80% -10%, rgba(205,242,74,.07), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(255,106,61,.05), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Hanken Grotesk',system-ui,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    padding:0 20px 100px;
+  }
+  .wrap{max-width:920px;margin:0 auto}
+  .mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+  .lime{color:var(--lime)}
+  .ember{color:var(--ember)}
+
+  /* ---------- HERO ---------- */
+  header{
+    padding:64px 0 34px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    opacity:0; animation:rise .7s ease forwards;
+  }
+  .kicker{
+    font-family:'IBM Plex Mono',monospace;
+    letter-spacing:.32em;text-transform:uppercase;
+    font-size:11px;color:var(--lime-dim);
+    display:flex;align-items:center;gap:12px;margin-bottom:22px;
+  }
+  .kicker::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,var(--line),transparent)}
+  h1{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-weight:800;line-height:.92;letter-spacing:-.02em;
+    font-size:clamp(46px,11vw,104px);
+    text-transform:uppercase;
+  }
+  h1 .ten{color:var(--lime)}
+  .subline{
+    margin-top:18px;color:var(--muted);font-size:clamp(15px,2.4vw,18px);
+    max-width:62ch;
+  }
+  .meta{
+    margin-top:30px;display:flex;flex-wrap:wrap;gap:14px;
+  }
+  .chip{
+    background:var(--card);border:1px solid var(--line);border-radius:99px;
+    padding:9px 16px;display:flex;align-items:center;gap:9px;
+    font-size:13px;color:var(--muted);
+  }
+  .chip b{color:var(--ink);font-weight:600}
+  .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px var(--lime)}
+  .chip.race .dot{background:var(--ember);box-shadow:0 0 10px var(--ember)}
+
+  /* ---------- SECTION ---------- */
+  section{padding:46px 0;border-bottom:1px solid var(--line)}
+  .s-head{display:flex;align-items:baseline;gap:16px;margin-bottom:26px;flex-wrap:wrap}
+  .s-num{font-family:'IBM Plex Mono',monospace;color:var(--dim);font-size:13px;letter-spacing:.1em}
+  h2{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:700;
+    font-size:clamp(24px,4.5vw,34px);letter-spacing:-.01em;text-transform:uppercase;
+  }
+  .s-note{color:var(--muted);font-size:14px;flex:1;min-width:200px}
+
+  /* ---------- SNAPSHOT GRID ---------- */
+  .grid{display:grid;gap:14px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .stat{
+    background:linear-gradient(180deg,var(--card),var(--bg-2));
+    border:1px solid var(--line);border-radius:var(--r);padding:20px;
+  }
+  .stat .lab{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .stat .big{font-family:'IBM Plex Mono',monospace;font-size:clamp(26px,5vw,34px);font-weight:600;margin-top:8px;line-height:1}
+  .stat .sub{font-size:13px;color:var(--muted);margin-top:8px}
+
+  /* ---------- GOAL ---------- */
+  .goals{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .goal{
+    border-radius:var(--r);padding:24px;position:relative;overflow:hidden;
+    border:1px solid var(--line);background:var(--card);
+  }
+  .goal.primary{border-color:var(--lime-dim);background:linear-gradient(180deg,rgba(205,242,74,.08),var(--card))}
+  .goal .tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime)}
+  .goal.stretch .tag{color:var(--cool)}
+  .goal .time{font-family:'IBM Plex Mono',monospace;font-size:clamp(34px,8vw,52px);font-weight:600;line-height:1;margin:12px 0 6px}
+  .goal .pace{font-size:14px;color:var(--muted)}
+  .goal .pace b{color:var(--ink);font-weight:600}
+  .goal .blurb{font-size:13px;color:var(--muted);margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+
+  /* ---------- PACE TABLE ---------- */
+  .ptable{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+  .prow{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:0;border-bottom:1px solid var(--line)}
+  .prow:last-child{border-bottom:none}
+  .prow:nth-child(even){background:rgba(255,255,255,.012)}
+  .prow.h{background:var(--bg-2)}
+  .pcell{padding:13px 16px;font-size:14px;display:flex;align-items:center;gap:10px}
+  .prow.h .pcell{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+  .pcell.zone b{font-weight:600}
+  .pcell.zone small{display:block;color:var(--dim);font-size:11.5px;font-family:'Hanken Grotesk'}
+  .swatch{width:9px;height:26px;border-radius:3px;flex:none}
+
+  /* ---------- WEEK ---------- */
+  .week{margin-top:30px}
+  .wbar{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    padding:16px 20px;border:1px solid var(--line);border-radius:var(--r) var(--r) 0 0;
+    background:var(--bg-2);
+  }
+  .wbar .wl{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .wbar .wn{font-family:'IBM Plex Mono',monospace;color:var(--lime);font-size:12px;letter-spacing:.14em}
+  .wbar h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:21px;text-transform:uppercase;letter-spacing:-.01em}
+  .wbar .wp{font-size:13px;color:var(--muted)}
+  .wbar .vol{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted)}
+  .wbar .vol b{color:var(--ink)}
+  .week.race .wbar{border-color:var(--ember);background:linear-gradient(180deg,var(--ember-soft),var(--bg-2))}
+  .week.race .wn{color:var(--ember)}
+
+  .days{border:1px solid var(--line);border-top:none;border-radius:0 0 var(--r) var(--r);overflow:hidden}
+  .day{
+    display:grid;grid-template-columns:74px 128px 1fr;gap:0;
+    border-bottom:1px solid var(--line);position:relative;
+  }
+  .day:last-child{border-bottom:none}
+  .day .dwhen{
+    padding:16px 14px;background:var(--bg-2);
+    border-right:1px solid var(--line);
+  }
+  .day .dow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+  .day .dnum{font-family:'Bricolage Grotesque';font-weight:700;font-size:22px;line-height:1.1;margin-top:2px}
+  .day .dtype{padding:16px 14px;display:flex;align-items:flex-start}
+  .pill{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    padding:5px 9px;border-radius:6px;border:1px solid var(--line);color:var(--muted);white-space:nowrap;
+  }
+  .pill.key{color:#0c0c08;background:var(--lime);border-color:var(--lime)}
+  .pill.tempo{color:var(--lime);border-color:var(--lime-dim)}
+  .pill.long{color:var(--cool);border-color:#3a5566}
+  .pill.easy{color:var(--muted)}
+  .pill.rest{color:var(--dim)}
+  .pill.race{color:#0c0c08;background:var(--ember);border-color:var(--ember)}
+  .pill.lift{color:#caa; border-color:#5a3a3a}
+  .day .ddesc{padding:16px 18px;font-size:14px}
+  .day .ddesc .t{font-weight:600;margin-bottom:3px}
+  .day .ddesc .d{color:var(--muted);font-size:13.5px}
+  .day .ddesc .lift{margin-top:8px;font-size:12.5px;color:#c4a89c;display:flex;gap:7px;align-items:baseline}
+  .day .ddesc .lift::before{content:"+ STRENGTH";font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.1em;color:#7d5a4e;border:1px solid #5a3a3a;padding:2px 5px;border-radius:4px;flex:none}
+  .day.hard{box-shadow:inset 3px 0 0 var(--lime)}
+  .day.raceday{box-shadow:inset 3px 0 0 var(--ember);background:linear-gradient(90deg,rgba(255,106,61,.06),transparent 40%)}
+  .day.rest{opacity:.78}
+
+  /* ---------- RACE PLAN ---------- */
+  .splits{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:6px}
+  .split{display:grid;grid-template-columns:96px 1fr;border-bottom:1px solid var(--line);align-items:center}
+  .split:last-child{border-bottom:none}
+  .split .km{font-family:'IBM Plex Mono',monospace;padding:14px 16px;background:var(--bg-2);border-right:1px solid var(--line);font-size:14px}
+  .split .km b{color:var(--lime)}
+  .split .desc{padding:12px 18px;font-size:14px}
+  .split .desc .p{font-family:'IBM Plex Mono',monospace;color:var(--ink);font-weight:600;font-size:15px}
+  .split .desc .c{color:var(--muted);font-size:13px}
+  .split.finish{background:linear-gradient(90deg,rgba(255,106,61,.08),transparent)}
+  .split.finish .p{color:var(--ember)}
+
+  /* ---------- NOTES ---------- */
+  .notes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .note{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+  .note h4{font-family:'Bricolage Grotesque';font-weight:700;font-size:16px;margin-bottom:9px;display:flex;align-items:center;gap:9px}
+  .note h4 .mk{width:8px;height:8px;border-radius:2px;background:var(--lime)}
+  .note p{font-size:13.5px;color:var(--muted)}
+  .note p b{color:var(--ink);font-weight:600}
+
+  .foot{padding:34px 0 0;color:var(--dim);font-size:12.5px;text-align:center;line-height:1.7}
+
+  /* ---------- ANIM ---------- */
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  section{opacity:0;animation:rise .6s ease forwards}
+  section:nth-of-type(1){animation-delay:.05s}
+  section:nth-of-type(2){animation-delay:.1s}
+  section:nth-of-type(3){animation-delay:.15s}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:680px){
+    .g3,.g2,.goals,.notes{grid-template-columns:1fr}
+    .prow{grid-template-columns:1.3fr 1fr 1fr}
+    .day{grid-template-columns:58px 1fr}
+    .day .dtype{grid-column:2;padding-top:14px;padding-bottom:0}
+    .day .ddesc{grid-column:2;padding-top:8px}
+    .day .dwhen{grid-row:span 2}
+    .split{grid-template-columns:74px 1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <header>
+    <div class="kicker">Coached Race Program · 3-Week Sharpen &amp; Taper</div>
+    <h1><span class="ten">10K</span> Race<br>Program</h1>
+    <p class="subline">A three-week sharpening block built from your Strava history. The aerobic engine is already there — these 20 days convert that endurance into race-day speed, then shed fatigue so you arrive fresh and fast on the line.</p>
+    <div class="meta">
+      <span class="chip race"><span class="dot"></span><b>Race Day</b> · Sun, June 21, 2026</span>
+      <span class="chip"><span class="dot"></span><b>20 days</b> out · starts Mon Jun 1</span>
+      <span class="chip"><span class="dot"></span><b>4 runs</b> + 2 strength / week</span>
+    </div>
+  </header>
+
+  <!-- 01 SNAPSHOT -->
+  <section>
+    <div class="s-head">
+      <span class="s-num">01</span><h2>Where you stand</h2>
+      <span class="s-note">Pulled from your last ~5 months of running, through May 30.</span>
+    </div>
+    <div class="grid g3">
+      <div class="stat">
+        <div class="lab">Recent Volume</div>
+        <div class="big">15–28<span style="font-size:16px;color:var(--muted)"> mi/wk</span></div>
+        <div class="sub">2–4 runs weekly · last 7 days hit 28 mi over 4 runs.</div>
+      </div>
+      <div class="stat">
+        <div class="lab">Endurance Base</div>
+        <div class="big">13.7<span style="font-size:16px;color:var(--muted)"> mi</span></div>
+        <div class="sub">Longest recent run @ 9:47/mi, only 158 avg HR — strong aerobic engine.</div>
+      </div>
+      <div class="stat">
+        <div class="lab">Best Quality Marker</div>
+        <div class="big">8:43<span style="font-size:16px;color:var(--muted)"> /mi</span></div>
+        <div class="sub">Held for 5.5 mi; also 7.3 mi @ 8:58/mi in early May.</div>
+      </div>
+      <div class="stat">
+        <div class="lab">Top-End Speed</div>
+        <div class="big">7:55<span style="font-size:16px;color:var(--muted)"> /mi</span></div>
+        <div class="sub">~3-mile effort — proof the legs have a higher gear to draw on.</div>
+      </div>
+      <div class="stat">
+        <div class="lab">Heart-Rate Headroom</div>
+        <div class="big">155<span style="font-size:16px;color:var(--muted)"> / ~182</span></div>
+        <div class="sub">5.6 mi @ 9:31/mi sat well below max — clear room to push harder.</div>
+      </div>
+      <div class="stat">
+        <div class="lab">The Gap to Close</div>
+        <div class="big lime" style="font-size:22px;line-height:1.25;margin-top:10px">Race-specific<br>speed</div>
+        <div class="sub">Endurance is covered. 3 weeks of targeted quality is the lever.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 GOAL -->
+  <section>
+    <div class="s-head">
+      <span class="s-num">02</span><h2>Race targets</h2>
+      <span class="s-note">Evidence-based, not arbitrary. We train to the primary and let race day decide the stretch.</span>
+    </div>
+    <div class="goals">
+      <div class="goal primary">
+        <span class="tag">◢ Primary Goal · train to this</span>
+        <div class="time">53:20</div>
+        <div class="pace"><b>8:35 / mile</b></div>
+        <div class="blurb">Realistic and assertive given a 13.7 mi long run and 7.3 mi at 8:58/mi. This is the pace every key session is anchored to.</div>
+      </div>
+      <div class="goal stretch">
+        <span class="tag">◥ Stretch Goal · if it's clicking</span>
+        <div class="time">51:30</div>
+        <div class="pace"><b>8:18–8:27 / mile</b></div>
+        <div class="blurb">On a cool morning with a smart negative split. If mile 4 feels easy, shift the back half toward this — don't reach for it early.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 PACE ZONES -->
+  <section>
+    <div class="s-head">
+      <span class="s-num">03</span><h2>Your pace zones</h2>
+      <span class="s-note">Every workout below references these. Effort matters more than the exact number on a given day.</span>
+    </div>
+    <div class="ptable">
+      <div class="prow h">
+        <div class="pcell">Zone</div><div class="pcell">Pace / mile</div><div class="pcell">Feel</div>
+      </div>
+      <div class="prow">
+        <div class="pcell zone"><span class="swatch" style="background:#4a5a3a"></span><span><b>Recovery / Easy</b></span></div>
+        <div class="pcell mono">10:11–11:00</div><div class="pcell">Conversational, nose-breathing</div>
+      </div>
+      <div class="prow">
+        <div class="pcell zone"><span class="swatch" style="background:#3a5566"></span><span><b>Long Run</b></span></div>
+        <div class="pcell mono">9:39–10:20</div><div class="pcell">Steady aerobic, relaxed</div>
+      </div>
+      <div class="prow">
+        <div class="pcell zone"><span class="swatch" style="background:#9fb83a"></span><span><b>Threshold / Tempo</b></span></div>
+        <div class="pcell mono">8:51–9:07</div><div class="pcell">Comfortably hard, ~1hr effort</div>
+      </div>
+      <div class="prow">
+        <div class="pcell zone"><span class="swatch" style="background:var(--lime)"></span><span><b>Goal 10K Pace</b></span></div>
+        <div class="pcell mono lime">8:32–8:42</div><div class="pcell">Race rhythm — make it automatic</div>
+      </div>
+      <div class="prow">
+        <div class="pcell zone"><span class="swatch" style="background:#d8e85a"></span><span><b>VO₂ / Intervals</b></span></div>
+        <div class="pcell mono">8:03–8:19</div><div class="pcell">~5K effort, hard but controlled</div>
+      </div>
+      <div class="prow">
+        <div class="pcell zone"><span class="swatch" style="background:var(--ember)"></span><span><b>Short Reps (¼ mi / 400m)</b></span></div>
+        <div class="pcell mono ember">7:47–8:03</div><div class="pcell">≈ 1:56–2:00 per quarter</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 THE PLAN -->
+  <section>
+    <div class="s-head">
+      <span class="s-num">04</span><h2>The 3-week plan</h2>
+      <span class="s-note">Hard days are hard, easy days are genuinely easy. Strength is stacked onto quality-run days to protect recovery.</span>
+    </div>
+
+    <!-- WEEK 1 -->
+    <div class="week">
+      <div class="wbar">
+        <div class="wl"><span class="wn">WEEK 01</span><h3>Sharpen</h3><span class="wp">Jun 1 – Jun 7 · reintroduce quality</span></div>
+        <span class="vol">Volume <b>~23 mi</b></span>
+      </div>
+      <div class="days">
+        <div class="day hard">
+          <div class="dwhen"><div class="dow">Mon</div><div class="dnum">01</div></div>
+          <div class="dtype"><span class="pill easy">Easy + Strides</span></div>
+          <div class="ddesc"><div class="t">4 mi easy @ 10:20/mi</div><div class="d">Finish with 4 × 20s relaxed strides. Keep it loose — you ran 13.7 mi two days ago.</div></div>
+        </div>
+        <div class="day hard">
+          <div class="dwhen"><div class="dow">Tue</div><div class="dnum">02</div></div>
+          <div class="dtype"><span class="pill key">VO₂ Intervals</span></div>
+          <div class="ddesc"><div class="t">5 × ½ mi (800m) @ 8:03–8:11/mi</div><div class="d">1.25 mi WU + drills · 2:00 jog recovery between reps · 1 mi CD. ≈ 6 mi total.</div><div class="lift">Lower body, moderate–heavy (2–3 reps in reserve). Lift <i>after</i> the run, or 4h+ apart.</div></div>
+        </div>
+        <div class="day rest">
+          <div class="dwhen"><div class="dow">Wed</div><div class="dnum">03</div></div>
+          <div class="dtype"><span class="pill rest">Recovery</span></div>
+          <div class="ddesc"><div class="t">Rest — or 25–30 min very easy</div><div class="d">Optional shakeout / mobility / foam roll. No quality, no clock-watching.</div></div>
+        </div>
+        <div class="day hard">
+          <div class="dwhen"><div class="dow">Thu</div><div class="dnum">04</div></div>
+          <div class="dtype"><span class="pill tempo">Tempo</span></div>
+          <div class="ddesc"><div class="t">20 min continuous @ 8:51–9:07/mi</div><div class="d">1.25 mi WU + tempo block + 1 mi CD. ≈ 5 mi. "Comfortably hard" — you could speak only in short phrases.</div><div class="lift">Lower body, moderate. Keep it crisp, avoid grinding to failure.</div></div>
+        </div>
+        <div class="day rest">
+          <div class="dwhen"><div class="dow">Fri</div><div class="dnum">05</div></div>
+          <div class="dtype"><span class="pill rest">Rest</span></div>
+          <div class="ddesc"><div class="t">Full rest / mobility</div><div class="d">Foam roll, stretch, hydrate. Prime the legs for tomorrow's long run.</div></div>
+        </div>
+        <div class="day">
+          <div class="dwhen"><div class="dow">Sat</div><div class="dnum">06</div></div>
+          <div class="dtype"><span class="pill long">Long Run</span></div>
+          <div class="ddesc"><div class="t">9 mi @ 9:45–10:20/mi</div><div class="d">Easy-steady aerobic. Relaxed and controlled the whole way — this maintains the engine, it isn't a workout.</div></div>
+        </div>
+        <div class="day rest">
+          <div class="dwhen"><div class="dow">Sun</div><div class="dnum">07</div></div>
+          <div class="dtype"><span class="pill rest">Rest</span></div>
+          <div class="ddesc"><div class="t">Full rest</div><div class="d">Sleep, eat, recover. This is where the week's work gets absorbed.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 2 -->
+    <div class="week">
+      <div class="wbar">
+        <div class="wl"><span class="wn">WEEK 02</span><h3>Peak · Race-Specific</h3><span class="wp">Jun 8 – Jun 14 · biggest quality, taper begins</span></div>
+        <span class="vol">Volume <b>~24 mi</b></span>
+      </div>
+      <div class="days">
+        <div class="day hard">
+          <div class="dwhen"><div class="dow">Mon</div><div class="dnum">08</div></div>
+          <div class="dtype"><span class="pill easy">Easy + Strides</span></div>
+          <div class="ddesc"><div class="t">4 mi easy @ 10:20/mi</div><div class="d">4 × 20s strides to finish. Wake the legs up without taxing them.</div></div>
+        </div>
+        <div class="day hard">
+          <div class="dwhen"><div class="dow">Tue</div><div class="dnum">09</div></div>
+          <div class="dtype"><span class="pill key">VO₂ Intervals</span></div>
+          <div class="ddesc"><div class="t">6 × ½ mi (800m) @ 8:03/mi <span style="color:var(--dim)">(or 5 × 0.6 mi / 1000m @ 8:11/mi)</span></div><div class="d">1.25 mi WU · 90s jog recovery · 1 mi CD. ≈ 6.5 mi. Shorter recovery = more race-specific than Week 1.</div><div class="lift">Lower body, reduce load ~20–30% &amp; volume. Taper has begun.</div></div>
+        </div>
+        <div class="day rest">
+          <div class="dwhen"><div class="dow">Wed</div><div class="dnum">10</div></div>
+          <div class="dtype"><span class="pill rest">Recovery</span></div>
+          <div class="ddesc"><div class="t">Rest — or 25–30 min very easy</div><div class="d">Light spin of the legs at most. Stay fresh for Thursday's key session.</div></div>
+        </div>
+        <div class="day hard">
+          <div class="dwhen"><div class="dow">Thu</div><div class="dnum">11</div></div>
+          <div class="dtype"><span class="pill key">Race-Pace Key</span></div>
+          <div class="ddesc"><div class="t">3 × 1.25 mi (2000m) @ goal pace 8:32–8:38/mi</div><div class="d">1.25 mi WU · 2:30 jog between · 1 mi CD. ≈ 6.5 mi. <b>Or — predictor option:</b> an all-out <b>5K (3.1 mi) time trial</b> (measured course/treadmill) to confirm your goal pace.</div><div class="lift">Light maintenance only — single-leg / bodyweight. <b>This is your final lower-body session before the race.</b></div></div>
+        </div>
+        <div class="day rest">
+          <div class="dwhen"><div class="dow">Fri</div><div class="dnum">12</div></div>
+          <div class="dtype"><span class="pill rest">Rest</span></div>
+          <div class="ddesc"><div class="t">Full rest</div><div class="d">Recover from the key session. Mobility and good sleep.</div></div>
+        </div>
+        <div class="day">
+          <div class="dwhen"><div class="dow">Sat</div><div class="dnum">13</div></div>
+          <div class="dtype"><span class="pill long">Long Run</span></div>
+          <div class="ddesc"><div class="t">8–9 mi @ 9:45–10:15/mi</div><div class="d">If you ran Option 1 (3 × 1.25 mi), finish the last 1.25 mi @ ~9:20/mi. If you did the 5K time trial Thursday, keep this fully easy.</div></div>
+        </div>
+        <div class="day rest">
+          <div class="dwhen"><div class="dow">Sun</div><div class="dnum">14</div></div>
+          <div class="dtype"><span class="pill rest">Rest</span></div>
+          <div class="ddesc"><div class="t">Full rest</div><div class="d">One week out. The hard work is now banked — from here we sharpen and freshen.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 3 -->
+    <div class="week race">
+      <div class="wbar">
+        <div class="wl"><span class="wn">WEEK 03</span><h3>Taper · Race</h3><span class="wp">Jun 15 – Jun 21 · ~40% less volume, stay sharp</span></div>
+        <span class="vol">Volume <b>~14 mi</b> incl. race</span>
+      </div>
+      <div class="days">
+        <div class="day">
+          <div class="dwhen"><div class="dow">Mon</div><div class="dnum">15</div></div>
+          <div class="dtype"><span class="pill easy">Easy + Strides</span></div>
+          <div class="ddesc"><div class="t">3 mi easy @ 10:20/mi + 4 strides</div><div class="d">Optional light core / mobility. <b>No heavy legs from here on.</b></div></div>
+        </div>
+        <div class="day hard">
+          <div class="dwhen"><div class="dow">Tue</div><div class="dnum">16</div></div>
+          <div class="dtype"><span class="pill tempo">Sharpener</span></div>
+          <div class="ddesc"><div class="t">4 × ¼ mi (400m) @ 7:55/mi (≈1:58)</div><div class="d">1 mi WU · 90s full recovery · add 2–3 × 100m strides · 1 mi CD. ≈ 3.7 mi. Crisp and smooth — never strained.</div></div>
+        </div>
+        <div class="day rest">
+          <div class="dwhen"><div class="dow">Wed</div><div class="dnum">17</div></div>
+          <div class="dtype"><span class="pill rest">Rest</span></div>
+          <div class="ddesc"><div class="t">Rest — or very easy 25 min</div><div class="d">Legs should start feeling springy. That bounce is the taper working.</div></div>
+        </div>
+        <div class="day">
+          <div class="dwhen"><div class="dow">Thu</div><div class="dnum">18</div></div>
+          <div class="dtype"><span class="pill easy">Easy Primer</span></div>
+          <div class="ddesc"><div class="t">3 mi easy + 4 × 20s strides</div><div class="d">Keep the legs turning over at goal-pace rhythm, nothing more.</div></div>
+        </div>
+        <div class="day rest">
+          <div class="dwhen"><div class="dow">Fri</div><div class="dnum">19</div></div>
+          <div class="dtype"><span class="pill rest">Rest</span></div>
+          <div class="ddesc"><div class="t">Full rest</div><div class="d">Hydrate, sleep, eat normally with a carb lean. This is the most important sleep night — two before the race.</div></div>
+        </div>
+        <div class="day">
+          <div class="dwhen"><div class="dow">Sat</div><div class="dnum">20</div></div>
+          <div class="dtype"><span class="pill easy">Shakeout</span></div>
+          <div class="ddesc"><div class="t">20 min very easy + 3 × 30s @ goal pace</div><div class="d">Relaxed leg-openers, not a workout. Lay out kit, pin the bib, lock logistics &amp; wake-up time.</div></div>
+        </div>
+        <div class="day raceday">
+          <div class="dwhen"><div class="dow">Sun</div><div class="dnum">21</div></div>
+          <div class="dtype"><span class="pill race">🏁 Race 10K</span></div>
+          <div class="ddesc"><div class="t" style="color:var(--ember)">RACE DAY — target 53:20</div><div class="d">Warm-up: 12–15 min easy jog + dynamic drills + 3–4 strides finishing at goal pace. Be done ~8–10 min before the gun. Execute the plan below.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 RACE EXECUTION -->
+  <section>
+    <div class="s-head">
+      <span class="s-num">05</span><h2>Race-day execution</h2>
+      <span class="s-note">Negative split. The first mile should feel almost too easy — that discipline is what produces a fast finish.</span>
+    </div>
+    <div class="splits">
+      <div class="split">
+        <div class="km"><b>MILE 1</b></div>
+        <div class="desc"><span class="p">8:40–8:43 /mi</span> <span class="c">— deliberately controlled. Let faster starters go. Settle breathing and find rhythm.</span></div>
+      </div>
+      <div class="split">
+        <div class="km"><b>MILE 2–4</b></div>
+        <div class="desc"><span class="p">8:32–8:35 /mi</span> <span class="c">— lock into goal pace. Relaxed shoulders, even effort, tuck behind a group if you can.</span></div>
+      </div>
+      <div class="split">
+        <div class="km"><b>MILE 5</b></div>
+        <div class="desc"><span class="p">8:28–8:31 /mi</span> <span class="c">— begin to press. Re-engage focus, shorten the gap to anyone ahead.</span></div>
+      </div>
+      <div class="split">
+        <div class="km"><b>MILE 6</b></div>
+        <div class="desc"><span class="p">8:22–8:28 /mi</span> <span class="c">— commit. This is where the race is decided. Stay tall and drive the arms.</span></div>
+      </div>
+      <div class="split finish">
+        <div class="km"><b>LAST 0.2</b></div>
+        <div class="desc"><span class="p">8:00–8:10 /mi pace</span> <span class="c">— empty the tank to the line. Nothing left in reserve.</span></div>
+      </div>
+    </div>
+    <p style="margin-top:16px;font-size:13.5px;color:var(--muted)">If you reach mile 4 feeling clearly comfortable, shift the entire back half ~8 s/mi faster and chase the <b style="color:var(--cool)">51:30</b> stretch goal. The fatal error is going out too fast — guard against it in mile 1.</p>
+  </section>
+
+  <!-- 06 STRENGTH -->
+  <section>
+    <div class="s-head">
+      <span class="s-num">06</span><h2>Strength &amp; the 2 leg days</h2>
+      <span class="s-note">Strength gains take longer than 3 weeks to show — but heavy-leg fatigue absolutely will show on race day. So we maintain, then back off.</span>
+    </div>
+    <div class="notes">
+      <div class="note">
+        <h4><span class="mk"></span>Stack it onto hard days</h4>
+        <p>Keep your <b>2 lower-body sessions on Tue &amp; Thu</b> — the same days as quality running. This consolidates stress into hard days and keeps easy days truly easy. Always lift <b>after</b> the run, or 4+ hours apart.</p>
+      </div>
+      <div class="note">
+        <h4><span class="mk"></span>Ramp the load down</h4>
+        <p><b>Week 1:</b> moderate–heavy, RIR 2–3. <b>Week 2:</b> cut load ~20–30% &amp; reduce volume; Thursday's is your <b>final</b> lower-body session (light, single-leg/stability). <b>Race week:</b> nothing loading the legs from Tuesday on.</p>
+      </div>
+      <div class="note">
+        <h4><span class="mk"></span>Avoid the soreness traps</h4>
+        <p>No max lifts, no brand-new exercises, and nothing that leaves deep DOMS within the final ~10 days. Skip heavy eccentrics — deep loaded squats to failure, heavy walking lunges — close to race day. Favour compound but submaximal work, calves/feet, and core.</p>
+      </div>
+      <div class="note">
+        <h4><span class="mk"></span>Why this works</h4>
+        <p>In a 3-week window you can't build much new strength, but you <b>can</b> ruin a race by carrying leg fatigue into it. You'll bank the fitness you already have and shed the tiredness — arriving on the line springy, not sore.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 NOTES -->
+  <section style="border-bottom:none">
+    <div class="s-head">
+      <span class="s-num">07</span><h2>Coaching notes</h2>
+      <span class="s-note">The small things that decide the last mile.</span>
+    </div>
+    <div class="notes">
+      <div class="note">
+        <h4><span class="mk" style="background:var(--cool)"></span>Sleep is the #1 taper lever</h4>
+        <p>Aim <b>7.5–9 hrs</b>, especially Wed–Sat of race week. The night that matters most is <b>two before</b> the race (Friday) — pre-race nerves often disrupt the final night, so bank it early.</p>
+      </div>
+      <div class="note">
+        <h4><span class="mk" style="background:var(--lime)"></span>Fuel &amp; race morning</h4>
+        <p>Normal balanced eating, with a <b>carb lean (~55–65%)</b> the last 2–3 days. Race morning: a familiar carb-based breakfast <b>2.5–3 hrs</b> before. <b>Never try anything new on race day.</b></p>
+      </div>
+      <div class="note">
+        <h4><span class="mk" style="background:var(--ember)"></span>Carlsbad in June</h4>
+        <p>Coastal "June gloom" often means cool, overcast mornings — excellent racing weather. Check race-morning conditions, keep urine pale through race week, and adjust warm-up layers to the actual temperature.</p>
+      </div>
+      <div class="note">
+        <h4><span class="mk" style="background:#caa"></span>When to flex the plan</h4>
+        <p>A niggle or unusual fatigue → swap a quality day for easy and trim volume. <b>One missed session won't cost you the race; racing injured will.</b> Sharp pain = stop. Listen to the body over the schedule.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    Built from your Strava activity history · paces are targets, effort is the master · adjust the day-of-week layout freely as long as hard days keep a recovery day on either side.<br>
+    Good luck on June 21 — run the first mile with your head, the last mile with your heart.
+  </div>
+
+</div>
+</body>
+</html>
